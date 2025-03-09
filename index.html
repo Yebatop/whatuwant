@@ -81,6 +81,36 @@
       width: 250px;
       margin-top: 3px;
     }
+    /* Стили для эффекта пранка (jump scare) */
+    .jump-scare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease;
+      z-index: 9999;
+    }
+    .jump-scare.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .jump-scare img {
+      max-width: 80%;
+      height: auto;
+    }
+    .jump-scare p {
+      color: #fff;
+      font-size: 3rem;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -94,6 +124,16 @@
     </div>
     <img class="cat" src="https://yebatop.github.io/whatuwant/kitty-cat-pillow_1150-18088.png" alt="Котик">
   </div>
+  
+  <!-- Элемент для пранка -->
+  <div class="jump-scare" id="jump-scare">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Ghost_icon_2.svg/1200px-Ghost_icon_2.svg.png" alt="Призрак">
+    <p>BOO!</p>
+  </div>
+
+  <!-- Аудиоэлемент для звука пранка -->
+  <audio id="prank-sound" src="URL_ВАШЕГО_ЗВУКОВОГО_ФАЙЛА"></audio>
+  
   <script>
     // Обработчик клика по кнопке: переключение видимости сообщения и смена текста кнопки
     document.getElementById('btn').addEventListener('click', function() {
@@ -111,18 +151,6 @@
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       const deltaX = (x - centerX) / centerX; // нормализованное значение от -1 до 1
-      const deltaY = (y - centerY) / centerY; // нормализованное значение от -1 до 1
-
-      const maxTilt = 10; // максимальный угол наклона в градусах
-      const tiltX = deltaY * maxTilt;
-      const tiltY = -deltaX * maxTilt;
-
-      container.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-    });
-
-    container.addEventListener('mouseleave', function() {
-      container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-    });
-  </script>
-</body>
-</html>
+      const deltaY = (y - centerY) / centerY; // нормализован
+::contentReference[oaicite:1]{index=1}
+ 
