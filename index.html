@@ -6,44 +6,177 @@
   <title>Мои голые фото</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; display: flex; align-items: center; justify-content: center; background: black; color: white; font-family: Arial, sans-serif; }
-    .container { text-align: center; }
-    .btn { padding: 10px 20px; font-size: 18px; cursor: pointer; background: white; color: black; border: none; border-radius: 5px; margin-top: 20px; }
-    .jump-scare { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; color: red; font-size: 50px; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 9999; }
-    .jump-scare.show { opacity: 1; visibility: visible; }
+    /* Все ваши стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      min-height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Стиль контейнера */
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      max-width: 600px;
+      width: 90%;
+      transition: transform 0.3s ease;
+      will-change: transform;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 15px 0;
+      line-height: 1.5;
+    }
+    /* Стиль кнопки */
+    .btn {
+      background: #fff;
+      color: #333;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-3px);
+    }
+    /* Стиль сообщения */
+    .message {
+      margin-top: 30px;
+      font-size: 1.5em;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      line-height: 1.4;
+    }
+    .message.show {
+      opacity: 1;
+    }
+    /* Стиль котика */
+    .cat {
+      width: 250px;
+      margin-top: 3px;
+    }
+    /* Стили для эффекта пранка (jump scare) */
+    .jump-scare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease;
+      z-index: 9999;
+    }
+    .jump-scare.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .jump-scare img {
+      max-width: 80%;
+      height: auto;
+    }
+    .jump-scare p {
+      color: #fff;
+      font-size: 3rem;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="container">
     <h1>Добро пожаловать!</h1>
+    <p>Здесь представлены мои голые фото. Наслаждайся просмотром и опытом.</p>
     <p>Нажмите на кнопку, чтобы увидеть больше.</p>
-    <button class="btn" id="start-btn">Перейти</button>
+    <button class="btn" id="btn">перейти</button>
+    <div class="message" id="message">
+      что ты ожидал тут увидеть?
+    </div>
+    <img class="cat" src="https://yebatop.github.io/whatuwant/kitty-cat-pillow_1150-18088.png" alt="Котик">
   </div>
-
-  <!-- Элемент пранка -->
+  
+  <!-- Элемент для пранка -->
   <div class="jump-scare" id="jump-scare">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Ghost_icon_2.svg/1200px-Ghost_icon_2.svg.png" alt="Призрак">
     <p>BOO!</p>
   </div>
 
-  <!-- Аудио -->
-  <audio id="prank-sound">
-    <source src="https://yebatop.github.io/whatuwant/wow.mp3" type="audio/mpeg">
-  </audio>
-
+  <!-- Звук -->
+  <audio id="sound" src="https://yebatop.github.io/whatuwant/wow.mp3"></audio>
+  
   <script>
-    document.getElementById('start-btn').addEventListener('click', function() {
+    // Обработчик клика по кнопке: переключение видимости сообщения и смена текста кнопки
+    document.getElementById('btn').addEventListener('click', function() {
+      var message = document.getElementById('message');
+      this.textContent = this.textContent.trim() === "перейти" ? "закрыть" : "перейти";
+      message.classList.toggle('show');
+      
+      // Проигрывание звука при нажатии на кнопку
+      var sound = document.getElementById('sound');
+      sound.volume = 1.0; // Устанавливаем громкость на 100%
+      sound.play();
+      
+      // Показ пранка
       setTimeout(function() {
-        let scareScreen = document.getElementById('jump-scare');
-        let sound = document.getElementById('prank-sound');
-        
-        scareScreen.classList.add('show'); // Показываем экран BOO!
-        sound.play(); // Запускаем звук
+        document.getElementById('jump-scare').classList.add('show');
+      }, 1000);
+    });
 
-        setTimeout(function() {
-          scareScreen.classList.remove('show'); // Убираем через 3 секунды
-        }, 3000);
-      }, 3000); // Ждем 3 секунды перед появлением пранка
+    // Скрытие пранка по клику
+    document.getElementById('jump-scare').addEventListener('click', function() {
+      this.classList.remove('show');
+    });
+
+    // Интерактивный эффект наклона контейнера при движении мыши
+    var container = document.getElementById('container');
+    container.addEventListener('mousemove', function(e) {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const deltaX = (x - centerX) / centerX;
+      const deltaY = (y - centerY) / centerY;
+
+      const maxTilt = 10; // максимальный угол наклона в градусах
+      const tiltX = deltaY * maxTilt;
+      const tiltY = -deltaX * maxTilt;
+
+      container.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+    });
+
+    container.addEventListener('mouseleave', function() {
+      container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
     });
   </script>
 </body>
